@@ -1,0 +1,23 @@
+{
+  "name": "nodePrototype-src",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AitorGuerrero/nodePrototype-src.git"
+  },
+  "author": "aguerrerolasarte@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AitorGuerrero/nodePrototype-src/issues"
+  },
+  "homepage": "https://github.com/AitorGuerrero/nodePrototype-src",
+  "devDependencies": {
+    "mocha": "^2.0.1",
+    "should": "^4.3.0"
+  }
+}
