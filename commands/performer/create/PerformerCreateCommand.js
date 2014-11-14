@@ -1,8 +1,8 @@
-var Channel = require('../../../entities/Channel'),
+var Performer = require('../../../entities/Performer'),
     commandPrototype = {
         exec: function(request, cb) {
-            var channel = Channel.New(request.name);
-            this.repository.persist(channel, function(err) {
+            var performer = Performer.New(request.name);
+            this.repository.persist(performer, function(err) {
                 if(err) {
                     cb(err);
                 } else {

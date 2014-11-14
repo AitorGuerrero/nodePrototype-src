@@ -1,5 +1,5 @@
 var should = require('should'),
-    command = require('../../../../commands/channel/create/ChannelCreateCommand.js'),
+    command = require('../../../../commands/performer/create/PerformerCreateCommand.js'),
     RepoMock = {
         persistCalls: [],
         persist: function(channel, cb) {
@@ -8,7 +8,7 @@ var should = require('should'),
         }
     };
 
-describe('Channel Create Command', function(){
+describe('Performer Create Command', function(){
     describe('Initialized', function() {
         beforeEach(function() {
             this.repo = Object.create(RepoMock);
@@ -21,8 +21,8 @@ describe('Channel Create Command', function(){
                         throw err;
                     }
                     this.repo.persistCalls.length.should.be.eql(1);
-                    var savedChannel = this.repo.persistCalls[0][0];
-                    savedChannel.name.should.be.eql('pruebaNombre');
+                    var savedPerformer = this.repo.persistCalls[0][0];
+                    savedPerformer.name.should.be.eql('pruebaNombre');
                     done();
                 }.bind(this));
             });
