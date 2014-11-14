@@ -1,6 +1,6 @@
 var repository = {
     persist: function(channel, cb) {
-        this.db.insert(channel, function(err) {
+        this.collection.insert(channel, function(err) {
             cb(err);
         });
     }
@@ -8,6 +8,6 @@ var repository = {
 
 exports.New = function(db) {
     var repository = Object.create(repository);
-    repository.db = db;
+    repository.collection = db.collection('channel');
     return repository;
 }
