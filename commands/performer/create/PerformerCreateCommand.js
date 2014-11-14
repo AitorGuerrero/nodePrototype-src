@@ -5,8 +5,14 @@
 var Performer = require('../../../entities/Performer'),
     commandPrototype = {
         exec: function(request, cb) {
-            var performer = Performer.New(request.name);
-            this.repository.persist(performer, cb);
+            this.repository.find(request.name, function(err) {
+                if(err) {
+                    var performer = Performer.New(request.name);
+                    this.repository.persist(performer, cb);
+                } else {
+                    cb();
+                }
+            }.bind(this));
         }
     };
 
