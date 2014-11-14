@@ -1,14 +1,12 @@
+/*
+ TESTS
+ - When the name is duplicated return an error
+ */
 var Channel = require('../../../entities/Channel'),
     commandPrototype = {
         exec: function(request, cb) {
             var channel = Channel.New(request.name);
-            this.repository.persist(channel, function(err) {
-                if(err) {
-                    cb(err);
-                } else {
-                    cb(null);
-                }
-            });
+            this.repository.persist(channel, cb);
         }
     };
 
