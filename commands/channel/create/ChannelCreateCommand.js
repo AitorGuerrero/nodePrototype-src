@@ -11,7 +11,8 @@ var Channel = require('../../../entities/Channel'),
     };
 
 exports.New = function(repository) {
-    var command = Object.create(commandPrototype);
-    command.repository = repository;
+    var command = Object.create(commandPrototype, {
+        repository: {value: repository}
+    });
     return command;
 };

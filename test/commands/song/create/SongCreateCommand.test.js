@@ -9,7 +9,7 @@ var should = require('should'),
         find: function(name, cb) {
             this.findCalls.push(arguments);
             var performer = Performer.New('performerTest');
-            performer.songs = [{}, {}];
+            performer.addSong({}).addSong({});
             cb(null, performer);
         },
         persist: function(channel, cb) {

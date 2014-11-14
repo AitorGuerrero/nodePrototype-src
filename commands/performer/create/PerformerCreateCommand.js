@@ -17,7 +17,8 @@ var Performer = require('../../../entities/Performer'),
     };
 
 exports.New = function(repository) {
-    var command = Object.create(commandPrototype);
-    command.repository = repository;
+    var command = Object.create(commandPrototype, {
+        repository: {value: repository}
+    });
     return command;
 };

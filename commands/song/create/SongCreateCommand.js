@@ -19,7 +19,8 @@ var Song = require('../../../entities/Song'),
     };
 
 exports.New = function(performerRepository) {
-    var command = Object.create(commandPrototype);
-    command.performerRepository = performerRepository;
+    var command = Object.create(commandPrototype, {
+        performerRepository: {value: performerRepository}
+    });
     return command;
 };
