@@ -1,4 +1,4 @@
-exports.BaseRepository = function(db, collectionName) {
+exports.New = function(db, collectionName) {
     var repository = Object.create({
         persist: function (channel, cb) {
             this.collection.insert(channel, function (err) {
