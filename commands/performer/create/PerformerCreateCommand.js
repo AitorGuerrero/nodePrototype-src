@@ -7,8 +7,9 @@ var Performer = require('../../../entities/Performer'),
         exec: function(request, cb) {
             this.repository.find(request.name, function(err) {
                 if(err) {
-                    var performer = Performer.New(request.name);
-                    this.repository.persist(performer, cb);
+                    this.repository.persist(Performer.New(request.name), function(err) {
+                        cb(err);
+                    });
                 } else {
                     cb();
                 }
