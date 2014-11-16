@@ -1,8 +1,3 @@
-/*
- TESTS
- - When the name is duplicated return an error
- - When the performer does not exist return an error
- */
 var Song = require('../../../entities/Song'),
     Performer = require('../../../entities/Performer'),
     commandPrototype = {
