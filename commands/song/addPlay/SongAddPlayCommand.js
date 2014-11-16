@@ -13,14 +13,14 @@ var Play = require('../../../entities/Play'),
                 request.end,
                 request.channel
             );
-            this.songRepository.persist(play, cb);
+            this.playRepository.persist(play, cb);
         }
 
     };
 
-exports.New = function(songRepository) {
+exports.New = function(playRepository) {
     var command = Object.create(commandPrototype, {
-        songRepository: {value: songRepository}
+        playRepository: {value: playRepository}
     });
     return command;
 };
