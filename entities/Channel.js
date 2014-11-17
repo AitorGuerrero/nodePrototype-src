@@ -1,6 +1,5 @@
-exports.New = function(name) {
-    var channel = Object.create({}, {
-        name: {value: name, writable: true}
-    });
-    return channel;
+exports = module.exports = Channel;
+
+function Channel (name) {
+    this.name = name;
 }

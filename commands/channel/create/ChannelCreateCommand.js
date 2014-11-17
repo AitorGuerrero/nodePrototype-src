@@ -5,7 +5,7 @@
 var Channel = require('../../../entities/Channel'),
     commandPrototype = {
         exec: function(request, cb) {
-            var channel = Channel.New(request.name);
+            var channel = new Channel(request.name);
             this.repository.persist(channel, cb);
         }
     };
