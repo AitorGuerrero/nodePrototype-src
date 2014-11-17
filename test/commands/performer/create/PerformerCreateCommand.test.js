@@ -20,7 +20,7 @@ describe('Performer Create Command', function(){
                 findCallback: {value: [], writable: true},
                 persistCallback: {value: [], writable: true}
             });
-            this.command = command.New(this.repo);
+            this.command = new command(this.repo);
         });
         describe('If the performer dos not exists', function() {
             beforeEach(function() {

@@ -1,18 +1,14 @@
-/*
- TESTS
- - When the name is duplicated return an error
- */
-var Channel = require('../../../entities/Channel'),
-    commandPrototype = {
-        exec: function(request, cb) {
-            var channel = new Channel(request.name);
-            this.repository.persist(channel, cb);
-        }
-    };
+exports = module.exports = Command;
 
-exports.New = function(repository) {
-    var command = Object.create(commandPrototype, {
-        repository: {value: repository}
-    });
-    return command;
+var Channel = require('../../../entities/Channel');
+
+function Command (repository) {
+    this.repository = repository;
+};
+
+Command.prototype = {
+    exec: function(request, cb) {
+        var channel = new Channel(request.name);
+        this.repository.persist(channel, cb);
+    }
 };

@@ -9,7 +9,6 @@ var should = require('should'),
         find: function(name, cb) {
             this.findCalls.push(arguments);
             var performer = new Performer('performerTest');
-            console.log(performer);
             performer.addSong({}).addSong({});
             cb(null, performer);
         },
@@ -25,7 +24,7 @@ describe('SongCreate Command', function(){
             this.repo = Object.create(RepoMock);
             this.repo.persistCalls = [];
             this.repo.findCalls = [];
-            this.command = command.New(this.repo);
+            this.command = new command(this.repo);
         });
         describe('Executing the command', function() {
             it('Should save the performer with the song in the repository', function(done) {

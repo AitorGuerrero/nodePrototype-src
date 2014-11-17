@@ -26,7 +26,7 @@ describe('Song add play create command', function(){
     describe('Initialized', function() {
         beforeEach(function() {
             this.repo = repo.New();
-            this.command = command.New(this.repo);
+            this.command = new command(this.repo);
             this.dateFrom = new Date();
             this.dateTo = new Date();
         });

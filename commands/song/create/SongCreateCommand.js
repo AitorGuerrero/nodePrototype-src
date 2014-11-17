@@ -1,21 +1,21 @@
-var Song = require('../../../entities/Song'),
-    Performer = require('../../../entities/Performer'),
-    commandPrototype = {
-        exec: function(request, cb) {
-            var repository = this.performerRepository;
-            repository.find(request.performer, function(err, performer) {
-                if(err) {
-                    performer = new Performer(request.performer);
-                }
-                performer.addSong(new Song(request.name));
-                repository.persist(performer, cb);
-            });
-        }
-    };
+exports = module.exports = Command;
 
-exports.New = function(performerRepository) {
-    var command = Object.create(commandPrototype, {
-        performerRepository: {value: performerRepository}
-    });
-    return command;
+var Performer = require('../../../entities/Performer'),
+    Song = require('../../../entities/Song');
+
+function Command (performerRepository) {
+    this.performerRepository = performerRepository;
+};
+
+Command.prototype = {
+    exec: function(request, cb) {
+        var repository = this.performerRepository;
+        repository.find(request.performer, function(err, performer) {
+            if(err) {
+                performer = new Performer(request.performer);
+            }
+            performer.addSong(new Song(request.name));
+            repository.persist(performer, cb);
+        });
+    }
 };

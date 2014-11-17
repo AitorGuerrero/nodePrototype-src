@@ -12,7 +12,7 @@ describe('Channel Create Command', function(){
     describe('Initialized', function() {
         beforeEach(function() {
             this.repo = Object.create(RepoMock);
-            this.command = command.New(this.repo);
+            this.command = new command(this.repo);
         });
         describe('Executing the command', function() {
             it('Should save the channel in the repository', function(done) {
