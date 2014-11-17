@@ -8,7 +8,8 @@ var should = require('should'),
     RepoMock = {
         find: function(name, cb) {
             this.findCalls.push(arguments);
-            var performer = Performer.New('performerTest');
+            var performer = new Performer('performerTest');
+            console.log(performer);
             performer.addSong({}).addSong({});
             cb(null, performer);
         },

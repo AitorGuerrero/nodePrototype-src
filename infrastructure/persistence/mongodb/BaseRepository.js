@@ -1,15 +1,22 @@
-exports.New = function(db, collectionName) {
-    var repository = Object.create({
-        persist: function (channel, cb) {
-            this.collection.insert(channel, function (err) {
-                cb(err);
-            });
-        },
-        find: function(id, cb) {
-            this.collection.findOne({name: id}, cb);
-        }
-    }, {
-        collection: {value: db.collection(collectionName)}
-    });
-    return repository;
+exports = module.exports = BaseRepository;
+
+function BaseRepository (db, collectionName) {
+    this.collection = db.collection(collectionName);
 }
+
+BaseRepository.prototype = {
+    persist: function (channel, cb) {
+        this.collection.insert(channel, function (err) {
+            cb(err);
+        });
+    },
+    find: function(id, cb) {
+        this.collection.findOne({name: id}, function(err, data) {
+            if(err) {
+                cb(err);
+            } else {
+                cb(null, this.parseEntity(data));
+            }
+        }.bind(this));
+    }
+};

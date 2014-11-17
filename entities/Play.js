@@ -1,4 +1,6 @@
-exports.New = function(title, performer, start, end, channel) {
+exports = module.exports = Play;
+
+function Play (title, performer, start, end, channel) {
     var song = Object.create({}, {
         title: {value: title, writable: true},
         performer: {value: performer, writable: true},

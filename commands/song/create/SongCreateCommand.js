@@ -5,9 +5,9 @@ var Song = require('../../../entities/Song'),
             var repository = this.performerRepository;
             repository.find(request.performer, function(err, performer) {
                 if(err) {
-                    performer = Performer.New(request.performer);
+                    performer = new Performer(request.performer);
                 }
-                performer.addSong(Song.New(request.name));
+                performer.addSong(new Song(request.name));
                 repository.persist(performer, cb);
             });
         }

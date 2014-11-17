@@ -6,7 +6,7 @@
 var Play = require('../../../entities/Play'),
     commandPrototype = {
         exec: function(request, cb) {
-            var play = Play.New(
+            var play = new Play(
                 request.title,
                 request.performer,
                 request.start,

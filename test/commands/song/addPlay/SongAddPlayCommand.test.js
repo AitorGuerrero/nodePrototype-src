@@ -16,7 +16,7 @@ var should = require('should'),
             return Object.create(repo.prototypeMock, {
                 findCalls: {value: []},
                 persistCalls: {value: []},
-                findCallback: {value: [null, Performer.New('Pis')], writable: true},
+                findCallback: {value: [null, new Performer('Pis')], writable: true},
                 persistCallback: {value: [], writable: true}
             });
         }
