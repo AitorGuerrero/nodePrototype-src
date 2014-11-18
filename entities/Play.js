@@ -1,12 +1,9 @@
 exports = module.exports = Play;
 
 function Play (title, performer, start, end, channel) {
-    var song = Object.create({}, {
-        title: {value: title, writable: true},
-        performer: {value: performer, writable: true},
-        start: {value: start, writable: true},
-        end: {value: end, writable: true},
-        channel: {value: channel, writable: true}
-    });
-    return song;
+    this.title = title;
+    this.performer = performer;
+    this.start= start,
+    this.end = end,
+    this.channel = channel
 }
