@@ -4,9 +4,6 @@ var Play = require('../../../entities/Play'),
 
 function Repository (db) {
     this.collection = db.collection('plays');
-    this.parseEntity = function(data) {
-        return new Play(data.title, data.performer, data.start, data.end, data.channel);
-    };
 }
 
 Repository.prototype = {
@@ -66,38 +63,9 @@ Repository.prototype = {
             }
         );
     },
-    findRankForSongs: function(songs, start, end) {
-        var songsIndexes = [];
-        for(var i = 0; i < songs.length; i++) {
-            songsIndexes.push({
-                title: songs[i].title,
-                performer: songs[i].performer
-            });
-        }
-        this.collection.aggregate(
-            {$match: {
-                _id: {$in: songsIndexes},
-                start: {$get: start},
-                end: {$let: end}
-            }},
-            {$group: {
-                _id: {performer: '$performer', title: '$title'},
-                playsAmount: {$sum: 1}
-            }},
-            {$match: {
-                _id: {$in: songsIndexes}
-            }},
-            {$sort: {playsAmount: -1}},
-            {$limit: limit},
-            function(err, result) {
-                if(err) {
-                    cb('Error retrieving data')
-                } else {
-                    cb(null, result)
-                }
-            }
-        );
+    parseEntity: function(data) {
+        return new Play(data.title, data.performer, data.start, data.end, data.channel);
     },
-    persist: baseRepo.persist,
-    find: baseRepo.find
+    persist: baseRepo.prototype.persist,
+    find: baseRepo.prototype.find
 };
