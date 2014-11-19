@@ -1,7 +1,6 @@
 exports = module.exports = BaseRepository;
 
 function BaseRepository (db, collectionName) {
-    this.collection = db.collection(collectionName);
 }
 
 BaseRepository.prototype = {

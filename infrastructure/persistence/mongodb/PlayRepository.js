@@ -1,14 +1,19 @@
-var Play = require('../../../entities/Play');
-exports.New = function(db) {
-    'use strict';
-    var repository = require('./BaseRepository').New(db, 'play');
-    repository.parseEntity = function(data) {
+module.exports = Repository;
+var Play = require('../../../entities/Play'),
+    baseRepo = require('./BaseRepository');
+
+function Repository (db) {
+    this.collection = db.collection('plays');
+    this.parseEntity = function(data) {
         return new Play(data.title, data.performer, data.start, data.end, data.channel);
     };
-    repository.findSongsPlays = function(title, performer, start, end, cb) {
+}
+
+Repository.prototype = {
+    findSongsPlays: function(title, performer, start, end, cb) {
         var cursor = this.collection.find({
-            start: {$gt: start},
-            end: {$lt: end},
+            start: {$get: start},
+            end: {$let: end},
             title: title,
             performer: performer
         });
@@ -21,11 +26,11 @@ exports.New = function(db) {
             }
             items.push(new Play(data.title, data.performer, data.start, data.end, data.channel));
         });
-    };
-    repository.findChannelPlays = function(start, end, cb) {
+    },
+    findChannelPlays: function(start, end, cb) {
         var cursor = this.collection.find({
-            start: {$gt: start},
-            end: {$lt: end}
+            start: {$get: start},
+            end: {$let: end}
         });
         var items = [];
         cursor.each(function(err, data) {
@@ -36,6 +41,63 @@ exports.New = function(db) {
             }
             items.push(new Play(data.title, data.performer, data.start, data.end, data.channel));
         });
-    };
-    return repository;
-}
+    },
+    findTopSongs: function(channels, start, end, limit, cb) {
+        this.collection.aggregate([
+            {$match: {
+                channel: {$in: channels},
+                start: {$gte: start},
+                end: {$lte: end}
+            }},
+            {$group: {
+                _id: {performer: '$performer', title: '$title'},
+                playsAmount: {$sum: 1}
+            }},
+            {$sort: {playsAmount: -1}},
+            {$limit: limit},
+            {$project: {
+                _id: 0,
+                performer: '$_id.performer',
+                title: '$_id.title',
+                playsAmount: '$playsAmount'
+            }}
+            ], function(err, result) {
+                cb(err, result);
+            }
+        );
+    },
+    findRankForSongs: function(songs, start, end) {
+        var songsIndexes = [];
+        for(var i = 0; i < songs.length; i++) {
+            songsIndexes.push({
+                title: songs[i].title,
+                performer: songs[i].performer
+            });
+        }
+        this.collection.aggregate(
+            {$match: {
+                _id: {$in: songsIndexes},
+                start: {$get: start},
+                end: {$let: end}
+            }},
+            {$group: {
+                _id: {performer: '$performer', title: '$title'},
+                playsAmount: {$sum: 1}
+            }},
+            {$match: {
+                _id: {$in: songsIndexes}
+            }},
+            {$sort: {playsAmount: -1}},
+            {$limit: limit},
+            function(err, result) {
+                if(err) {
+                    cb('Error retrieving data')
+                } else {
+                    cb(null, result)
+                }
+            }
+        );
+    },
+    persist: baseRepo.persist,
+    find: baseRepo.find
+};
