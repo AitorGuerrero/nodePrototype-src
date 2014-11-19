@@ -12,21 +12,8 @@ Query.prototype = {
             request.end,
             request.limit,
             function(err, songs) {
-                var indexedSongs = this.indexizeSongs(songs);
-                this.playsRepository.findRankForSongs(songs, function(err, lastRanks) {
-                    if (err) {
-                        cb(err);
-                    } else {
-                        var i, rank, song;
-                        for(i = 0; i < lastRanks.length; i++) {
-                            rank = lastRanks[i];
-                            song = indexedSongs[rank.performer][rank.title];
-                            song.previous_plays = rank.plays;
-                            song.previous_rank = rank.rank;
-                        }
-                        cb(null, songs);
-                    }
-                })
+                songs = this.setRank(songs);
+                this.getPreviousRank(songs, request, cb);
             }.bind(this)
         );
     },
@@ -38,6 +25,36 @@ Query.prototype = {
             }
             indexedSongs[songs[i].performer][songs[i].title] = songs[i];
         }
+        return indexedSongs;
+    },
+    setRank: function(songs) {
+        for(var i = 0; i < songs.length; i++) {
+            songs[i].rank = i + 1;
+        }
         return songs;
+    },
+    getPreviousRank: function(songs, request, cb) {
+        var indexedSongs = this.indexizeSongs(songs),
+            dateDif = request.end.getTime() - request.start.getTime(),
+            start = new Date(request.start.getTime() - dateDif),
+            end = request.start;
+        this.playsRepository.findTopSongs(
+            request.channels,
+            start,
+            end,
+            request.limit,
+            function(err, previousSongs) {
+                var perf, tit, i;
+                previousSongs = this.setRank(previousSongs);
+                for(i = 0; i < songs.length; i++) {
+                    perf = previousSongs[i].performer;
+                    tit = previousSongs[i].title;
+                    if (indexedSongs[perf] && indexedSongs[perf][tit]) {
+                        indexedSongs[perf][tit].previousRank = previousSongs[i].rank;
+                        indexedSongs[perf][tit].previousPlaysAmount = previousSongs[i].playsAmount;
+                    }
+                }
+                cb(null, songs);
+            }.bind(this));
     }
 }
