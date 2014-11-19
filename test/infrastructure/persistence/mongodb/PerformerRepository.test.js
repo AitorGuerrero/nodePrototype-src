@@ -9,7 +9,7 @@ var config = {
     dbName: 'nodePrototype_test'
 };
 
-describe('Play repository', function() {
+describe('Performer repository', function() {
     beforeEach(function(done) {
         require('mongodb')
             .MongoClient
