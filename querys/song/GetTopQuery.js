@@ -5,7 +5,7 @@ function Query (playsrepository) {
 }
 
 Query.prototype = {
-    execute: function(request, cb) {
+    exec: function(request, cb) {
         this.playsRepository.findTopSongs(
             request.channels,
             request.start,
