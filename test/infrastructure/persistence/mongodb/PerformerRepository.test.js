@@ -52,6 +52,21 @@ describe('Performer repository', function() {
                 this.result.name.should.be.eql('PerfB');
             });
         });
+        describe('When the perfromer does not exixts', function() {
+            beforeEach(function(done) {
+                this.repo.find(
+                    'PerfZ',
+                    function(err, result) {
+                        this.err = err;
+                        this.result = result;
+                        done();
+                    }.bind(this)
+                );
+            });
+            it('Should return a error', function() {
+                (typeof(this.err)).should.be.ok;
+            });
+        });
     });
     describe('persisting Performer PerfA', function() {
         beforeEach(function(done) {

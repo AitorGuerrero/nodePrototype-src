@@ -13,6 +13,8 @@ BaseRepository.prototype = {
         this.collection.findOne({name: id}, function(err, data) {
             if(err) {
                 cb(err);
+            } else if (data === null) {
+                cb('document not existent');
             } else {
                 cb(null, this.parseEntity(data));
             }

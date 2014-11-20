@@ -39,7 +39,7 @@ describe('Get top songs request', function() {
                     end: new Date('2014-10-28T00:00:00'),
                     limit: 2
                 };
-                this.query.execute(request, function(err, data) {
+                this.query.exec(request, function(err, data) {
                     this.result = data;
                     done(err);
                 }.bind(this));
